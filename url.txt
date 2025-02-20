@@ -1,0 +1,23 @@
+import java.io.*;
+import java.net.*;
+public class WebPageRetriever {
+public static void main(String[] args) {
+String urlString = "https://www.example.com"; // Replace with your desired URL
+try {
+// Create a URL object
+URL url = new URL(urlString);
+// Open a stream to read the webpage content
+try (BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()))) {
+String line;
+System.out.println("Web Page Content:\n");
+while ((line = reader.readLine()) != null) {
+System.out.println(line);
+}
+}
+} catch (MalformedURLException e) {
+System.out.println("Invalid URL: " + e.getMessage());
+} catch (IOException e) {
+System.out.println("Error retrieving web page: " + e.getMessage());
+}
+}
+}
