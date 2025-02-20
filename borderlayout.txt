@@ -1,0 +1,18 @@
+import java.awt.*;
+
+
+public class Borderlayout{
+    public static void main(String[] args){
+        Frame f = new Frame();
+        BorderLayout layout = new BorderLayout();
+        Button b1 = new Button("Button  1");
+        f.add(b1, layout.NORTH);
+        Button b2 = new Button("Btton  2");
+        f.add(b2, layout.SOUTH);
+        Button b3 = new Button("Btton  3");
+        f.add(b3, layout.CENTER);
+        f.setSize(400,200);
+        f.setVisible(true);
+        f.setLayout(layout);
+    }
+}
