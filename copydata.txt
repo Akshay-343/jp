@@ -1,0 +1,24 @@
+import java.io.*;
+public class FileCopy {
+public static void main(String[] args) {
+// Specify the source and destination file paths
+String sourceFile = "source.txt";
+String destinationFile = "destination.txt";
+// Use try-with-resources to ensure proper resource management
+try (FileInputStream inputStream = new FileInputStream(sourceFile);
+FileOutputStream outputStream = new FileOutputStream(destinationFile)) {
+// Buffer to hold data during the copy process
+byte[] buffer = new byte[1024];
+int bytesRead;
+// Read and write data
+while ((bytesRead = inputStream.read(buffer)) != -1) {
+outputStream.write(buffer, 0, bytesRead);
+}
+System.out.println("File copied successfully!");
+} catch (FileNotFoundException e) {
+System.out.println("File not found: " + e.getMessage());
+} catch (IOException e) {
+System.out.println("An error occurred while copying the file: " + e.getMessage());
+}
+}
+}
