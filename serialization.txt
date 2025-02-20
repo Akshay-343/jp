@@ -1,0 +1,39 @@
+import java.io.*;
+// Serializable class
+class Person implements Serializable {
+private String name;
+private int age;
+// Constructor
+public Person(String name, int age) {
+this.name = name;
+this.age = age;
+}
+// Display method
+public void display() {
+System.out.println("Name: " + name + ", Age: " + age);
+}
+}
+public class SerializationExample {
+public static void main(String[] args) {
+String filename = "person.ser";
+// Create an object to serialize
+Person person = new Person("John Doe", 30);
+// Serialization: Save object to a file
+try (FileOutputStream fileOut = new FileOutputStream(filename);
+ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
+out.writeObject(person);
+System.out.println("Object has been serialized.");
+} catch (IOException e) {
+System.out.println("Serialization error: " + e.getMessage());
+}
+// Deserialization: Read object from the file
+try (FileInputStream fileIn = new FileInputStream(filename);
+ObjectInputStream in = new ObjectInputStream(fileIn)) {
+Person deserializedPerson = (Person) in.readObject();
+System.out.println("Object has been deserialized.");
+deserializedPerson.display();
+} catch (IOException | ClassNotFoundException e) {
+System.out.println("Deserialization error: " + e.getMessage());
+}
+}
+}
