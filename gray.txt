@@ -1,0 +1,44 @@
+import java.awt.*;
+import java.awt.image.*;
+import java.io.*;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+public class ImageProcessor extends JFrame {
+private BufferedImage originalImage, grayImage;
+public ImageProcessor(String imagePath) {
+try {
+// Load the image
+originalImage = ImageIO.read(new File(imagePath));
+// Convert to grayscale
+grayImage = toGrayScale(originalImage);
+// Set up JFrame properties
+setTitle("Image Processing - Grayscale Conversion");
+setSize(originalImage.getWidth() * 2 + 50, originalImage.getHeight() + 50);
+setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+setVisible(true);
+} catch (IOException e) {
+System.out.println("Error loading image: " + e.getMessage());
+}
+}
+// Convert image to grayscale
+private BufferedImage toGrayScale(BufferedImage img) {
+BufferedImage gray = new BufferedImage(img.getWidth(), img.getHeight(),
+BufferedImage.TYPE_BYTE_GRAY);
+Graphics g = gray.getGraphics();
+g.drawImage(img, 0, 0, null);
+g.dispose();
+return gray;
+}
+// Paint method to display images
+public void paint(Graphics g) {
+super.paint(g);
+if (originalImage != null && grayImage != null) {
+g.drawImage(originalImage, 20, 50, this);
+g.drawImage(grayImage, originalImage.getWidth() + 40, 50, this);
+}
+}
+public static void main(String[] args) {
+String imagePath = "sample.jpg"; // Change this to your image path
+new ImageProcessor(imagePath);
+}
+}
