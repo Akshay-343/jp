@@ -1,0 +1,38 @@
+import java.io.*;
+import java.util.*;
+class Ascend implements Comparator<Integer> {
+public int compare(Integer i1, Integer i2) {
+return i1.compareTo(i2); // Ascending order
+}
+}
+class Dccend implements Comparator<Integer> {
+public int compare(Integer i1, Integer i2) {
+return i2.compareTo(i1); // Descending order
+}
+}
+class ComparatorInterfaceDemo {
+public static void main(String args[]) throws IOException {
+BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+System.out.print("How many elements: ");
+int size = Integer.parseInt(br.readLine());
+Integer arr[] = new Integer[size];
+for (int i = 0; i < size; i++) {
+System.out.println("Enter an integer:");
+arr[i] = Integer.parseInt(br.readLine());
+}
+// Sort in ascending order
+Arrays.sort(arr, new Ascend());
+System.out.println("\nSorted in Ascending Order:");
+display(arr);
+// Sort in descending order
+Arrays.sort(arr, new Dccend());
+System.out.println("\nSorted in Descending Order:");
+display(arr);
+}
+static void display(Integer arr[]) {
+for (Integer i : arr) {
+System.out.print(i + "\t");
+}
+System.out.println();
+}
+}
