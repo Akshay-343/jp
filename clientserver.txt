@@ -1,0 +1,76 @@
+Server side program(ServerSide.java):
+import java.io.*;
+import java.net.*;
+// Server class
+public class ServerSide{
+public static void main(String[] args) {
+int port = 5000; // Port number
+try (ServerSocket serverSocket = new ServerSocket(port)) {
+System.out.println("Server started and waiting for a client...");
+while (true) {
+// Accept a client connection
+Socket clientSocket = serverSocket.accept();
+System.out.println("Client connected.");
+// Create a new thread to handle the client
+new Thread(() -> handleClient(clientSocket)).start();
+}
+} catch (IOException e) {
+System.err.println("Server error: " + e.getMessage());
+}
+}
+private static void handleClient(Socket clientSocket) {
+try (
+BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+) {
+out.println("Welcome to the server! Type 'exit' to disconnect.");
+String message;
+while ((message = in.readLine()) != null) {
+System.out.println("Client: " + message);
+if (message.equalsIgnoreCase("exit")) {
+out.println("Goodbye!");
+break;
+}
+out.println("Server: " + message);
+}
+} catch (IOException e) {
+System.err.println("Error handling client: " + e.getMessage());
+} finally {
+try {
+clientSocket.close();
+System.out.println("Client disconnected.");
+} catch (IOException e) {
+System.err.println("Error closing client socket: " + e.getMessage());
+}
+}
+}
+}
+Client side program(ClientSide.java):
+import java.io.*;
+import java.net.*;
+// Client class
+public class SimpleClient {
+public static void main(String[] args) {
+String serverAddress = "localhost";
+int port = 5000;
+try (Socket socket = new Socket(serverAddress, port);
+BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+BufferedReader consoleInput = new BufferedReader(new InputStreamReader(System.in))) {
+System.out.println("Connected to the server.");
+// Start listening to server messages
+String serverMessage = in.readLine();
+System.out.println(serverMessage);
+// Send messages to the server
+String userInput;
+while ((userInput = consoleInput.readLine()) != null) {
+out.println(userInput); // Send to server
+if (userInput.equalsIgnoreCase("exit")) {
+break;
+}
+System.out.println(in.readLine()); // Read server response
+}
+} catch (IOException e) {
+System.err.println("Client error: " + e.getMessage());
+}
+}
