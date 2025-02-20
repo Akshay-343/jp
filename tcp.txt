@@ -1,0 +1,45 @@
+import java.io.*;
+import java.net.*;
+public class TCPServer {
+    public static void main(String[] args) {
+    int port = 12345; // Port number to listen on
+    try (ServerSocket serverSocket = new ServerSocket(port)) {
+        System.out.println("Server is waiting for a client on port " + port);
+        try (Socket clientSocket = serverSocket.accept()) {
+            System.out.println("Client connected from " + clientSocket.getInetAddress());
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)) {
+                String message = in.readLine();
+                System.out.println("Received from client: " + message);
+                out.println("Hello from the server! Your message was: " + message);
+            }
+        }
+    } catch (IOException e) {
+    System.err.println("Server error: " + e.getMessage());
+    }
+    }
+}
+//TCPCLIENT
+  import java.io.*;
+import java.net.*;
+public class TCPClient {
+public static void main(String[] args) {
+String serverAddress = "localhost"; 
+int port = 12345; 
+try (Socket socket = new Socket(serverAddress, port)) {
+System.out.println("Connected to server at " + serverAddress + ":" + port);
+
+try (BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
+PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+System.out.print("Enter a message to send to the server: ");
+String message = userInput.readLine();
+out.println(message);
+String response = in.readLine();
+System.out.println("Server response: " + response);
+}
+} catch (IOException e) {
+System.err.println("Client error: " + e.getMessage());
+}
+}
+}
