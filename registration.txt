@@ -1,0 +1,68 @@
+import java.awt.*;
+import java.awt.event.*;
+class Mytext extends Frame implements ActionListener
+{
+// Declare the text fields for name and password
+TextField name, pass;
+// Constructor for setting up the GUI components
+Mytext()
+{
+// Set the layout of the window to FlowLayout
+setLayout(new FlowLayout());
+// Create labels for name and password
+Label n = new Label("name :", Label.LEFT);
+Label p = new Label("password :", Label.LEFT);
+// Create the text fields for name and password
+name = new TextField(20);
+pass = new TextField(20);
+// Set the echo character for the password field (it will show '*' instead of the actual password)
+pass.setEchoChar('*');
+// Set the background and foreground colors of the name field
+name.setBackground(Color.pink);
+name.setForeground(Color.blue);
+// Set the font of the name field
+Font f = new Font("Arial", Font.PLAIN, 25);
+name.setFont(f);
+// Add the labels and text fields to the window
+this.add(n);
+this.add(name);
+this.add(p);
+this.add(pass);
+// Add action listeners to the text fields so that when Enter is pressed, the action is handled
+name.addActionListener(this);
+pass.addActionListener(this);
+// Add a window listener to handle the window closing event
+this.addWindowListener(new WindowAdapter()
+{
+// Override the windowClosing method to exit the application
+public void windowClosing(WindowEvent we)
+{
+System.exit(0);
+}
+});
+} // Constructor end
+// Action performed method called when Enter key is pressed in text fields
+public void actionPerformed(ActionEvent ae)
+{
+repaint(); // Trigger repaint to update the displayed text
+}
+// Method to paint the text on the window (called after an action is performed)
+public void paint(Graphics g)
+{
+// Draw the text entered in the name and password fields on the window
+g.drawString("Name : " + name.getText(), 10, 200);
+g.drawString("Password : " + pass.getText(), 10, 240);
+}
+// Main method to run the application
+public static void main(String args[])
+{
+// Create an instance of the Mytext class
+Mytext mt = new Mytext();
+// Set the title of the window
+mt.setTitle("my text field");
+// Set the size of the window
+mt.setSize(400, 400);
+// Make the window visible
+mt.setVisible(true);
+}
+}
